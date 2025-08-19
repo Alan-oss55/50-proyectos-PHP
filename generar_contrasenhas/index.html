@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Generador de Contraseñas</title>
+    </head>
+
+    <body>
+        <h1>Generador de Contraseñas</h1>
+
+        <form action="generar.php" method="post">
+            
+            <div>
+                <label for="longitud">Longitud</label>
+                <input type="number" name="longitud" id="longitud" min="6" max="32" value="12" required>
+            </div>
+            
+
+            <label for="incluir">Incluir:</label>
+
+            <input type="checkbox" name="mayusculas" id="mayusculas" checked>
+            <label for="mayusculas">Mayusculas</label>
+
+            <input type="checkbox" name="minusculas" id="minusculas" checked>
+            <label for="minusculas">Minúsculas</label>
+
+            <input type="checkbox" name="simbolos" id="simbolos" checked>
+            <label for="simbolos">Simbolos</label>
+
+            <input type="checkbox" name="numeros" id="numeros" checked>
+            <label for="numeros">Números</label>
+
+            <button type="submit">Generador</button>
+
+        </form>
+    </body>
+</html>
