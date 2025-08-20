@@ -2,36 +2,209 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-widht, initial-scale=1.0">
         <title>Generador de Contraseñas</title>
+        <style>
+
+            body {
+                 font-family: Arial, sans-serif;
+                 background-color: #f0f2f5;
+                 display: flex;
+                 justify-content: center;
+                 align-items: center;
+                 height: 100vh;
+                 margin: 0;
+            }
+
+            .container {
+                background-color: #ffffff;
+                padding: 40px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                width: 350px;
+                text-align: center;
+            }
+
+            h1 {
+                color: #333;
+                margin-bottom: 20px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+                text-align: left;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 8px;
+                color: #555;
+                font-weight: bold;
+            }
+
+            input[type="number"] {
+
+                width: calc(100% - 20px);
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+
+            .checkbox-group {
+
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 20px;
+            }
+
+            .checkbox-item {
+                margin-bottom: 10px;
+            }
+
+            .checkbox-item label {
+                display: inline;
+                margin-left: 10px;
+                font-weight: normal;
+            }
+
+            input[type="checkbox"]{
+                transform: scale(1.2);
+            }
+
+            button {
+
+                width: 100%;
+                padding: 12px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 18px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+            .contrasena-generada {
+
+                background-color: #e9ecef;
+                padding: 15px;
+                border-radius: 5px;
+                color: #333;
+                word-wrap: break-word;
+                font-size: 20px;
+                text-align: center;
+            }
+
+            .mensaje-error {
+
+                color: #dc3545;
+                text-align: center;
+                margin-top: 10px;
+            }
+
+        </style>
     </head>
 
     <body>
-        <h1>Generador de Contraseñas</h1>
+        <div class="container">
 
-        <form action="generar.php" method="post">
-            
-            <div>
-                <label for="longitud">Longitud</label>
-                <input type="number" name="longitud" id="longitud" min="6" max="32" value="12" required>
-            </div>
-            
+            <h1>Generador de Contraseñas</h1>
 
-            <label for="incluir">Incluir:</label>
+            <form id="password-form" >
+                
+                <div class="form-group">
+                    <label for="longitud">Longitud</label>
+                    <input type="number" name="longitud" id="longitud" min="6" max="32" value="12" required>
+                </div>
+                
+                <div class="checkbox-group">
 
-            <input type="checkbox" name="mayusculas" id="mayusculas" checked>
-            <label for="mayusculas">Mayusculas</label>
+                    <label for="incluir">Incluir:</label>
 
-            <input type="checkbox" name="minusculas" id="minusculas" checked>
-            <label for="minusculas">Minúsculas</label>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="mayusculas" id="mayusculas" checked>
+                        <label for="mayusculas">Mayusculas</label>
 
-            <input type="checkbox" name="simbolos" id="simbolos" checked>
-            <label for="simbolos">Simbolos</label>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="minusculas" id="minusculas" checked>
+                        <label for="minusculas">Minúsculas</label>
 
-            <input type="checkbox" name="numeros" id="numeros" checked>
-            <label for="numeros">Números</label>
+                    </div>
 
-            <button type="submit">Generador</button>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="simbolos" id="simbolos" checked>
+                        <label for="simbolos">Simbolos</label>
 
-        </form>
+                    </div>
+
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="numeros" id="numeros" checked>
+                        <label for="numeros">Números</label>
+                    </div>
+
+                </div>
+                
+                <button type="submit">Generador</button>
+
+                <div id="resultado-container">
+                    <h2>Contraseña Generada</h2>
+                    <h3 id="contrasena-generada"></h3>
+                    <p id="mensaje-error" class="mensaje-error"></p>
+                </div>
+
+            </form>
+        </div>
+
+
+        <script>
+
+            document.getElementById('password-form').addEventListener('submit', function(event){
+                event.preventDefault();
+
+                const longitud = document.getElementById('longitud').value; 
+                const mayusculas = document.getElementById('mayusculas').checked;
+                const minusculas = document.getElementById('minusculas').checked;
+                const numeros = document.getElementById('numeros').checked;
+                const simbolos = document.getElementById('simbolos').checked;
+
+                let caracteres = '' ;
+
+                if ( mayusculas ) caracteres += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' ;
+                if ( minusculas ) caracteres += 'abcdefghijklmnopqrstuvwxyz' ;
+                if ( numeros ) caracteres += '0123456789' ;
+                if ( simbolos ) caracteres += '!@#$%^&*-' ;
+
+                const resultadoElemento = document.getElementById('contrasena-generada') ;
+                const mensajeError = document.getElementById('mensaje-error');
+
+                if ( caracteres.length == 0 ){
+
+                    mensajeError.textContent = 'Error: Debes seleccionar al menos un tipo de carácter.';
+                    resultadoElemento.textContent = '' ;
+                    return ; 
+                }
+
+                mensajeError.textContent = '' ;
+
+                let contrasena = '' ;
+                
+                for(let i = 0 ; i < longitud ; i++ ){
+                     const indiceAleatorio = Math.floor(Math.random() * caracteres.length) ;
+                     contrasena += caracteres[indiceAleatorio];
+                }
+
+                resultadoElemento.textContent = contrasena ;
+            });
+
+        </script>
+        
     </body>
 </html>
