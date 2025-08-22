@@ -8,57 +8,117 @@
         <style>
             body {
                 font-family: Arial, Helvetica, sans-serif;
-                background-color: #ffffffff;
+                background-color: #f0f3f6;
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
                 margin: 0;
-            }
-
-            .container {
-                background-color: #e2e2e2ff;
-                padding: 40px;
-                text-align: center;
-                border-radius: 8px;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-                width: 400px;
-                text-align: center;
-            }
-
-            h1 {
                 color: #333;
-                margin-bottom: 20px;
             }
 
-            .form-group {
-
-                margin-bottom: 20px;
+            .main-container {
+                background-color: #fff;
+                padding: 40px;
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                width: 500px;
                 text-align: center;
             }
 
-            label {
+            .drop-zone {
 
-                display: block;
-                margin-bottom: 8px;
-                font-weight: bold;
+                border: 2px dashed #b5c3d4;
+                background-color: #f7f9fc;
+                padding: 50px 20px;
+                margin-top: 20px;
+                border-radius: 8px;
+                position: relative;
             }
+
+            .drop-zone h3 {
+
+                margin-top: 0;
+                color: #555;
+                
+            }
+
+            .drop-zone p {
+                color: #888;
+            }
+
+            .file-input {
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+            }
+
+            .custom-button {
+                display: inline-block;
+                background-color: #007bff;
+                color: #fff;
+                padding: 12px 25px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ;
+            }
+
+            .custom-button:hover {
+                background-color: #0056b3;
+            }
+
+            .content-ouput {
+                margin-top: 30px;
+                text-align: left;
+                width: 500px;
+            }
+
+            .content-ouput {
+                margin-top:30px;
+                text-align: center;
+                width: 500px;
+            }
+
+            .content-ouput pre {
+
+                background-color: #e9ecef;
+                padding: 20px;
+                border-radius: 5px;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+                border: 1px solid #ced4da;
+                max-height: 400px;
+                overflow-y: auto;
+            }
+
+            .error-message {
+                color: #dc3545;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+
         </style>
     </head>
 
     <body>
         
 
-        <div class="container">
+        <div class="main-container">
 
             <h1>Lector de Archivos .txt</h1>
 
             <form action="" method="post" enctype="multipart/form-data">
 
-                <div class="form-group">
-                    <label for="archivo">Importar Archivo .txt:</label>
-                    <input type="file" name="archivo" id="archivo" >
-                    <input type="submit" value="Leer archivo">
+                <div class="drop-zone">
+                    <h3>Elige un archivo o arrástralo aquí</h3>
+                    <label for="archivo" class="custom-button">ELEGIR ARCHIVOS</label>
+                    <input type="file" name="archivo" id="archivo" class="file-input" onchange="this.form.submit()">
                 </div>
             </form>
         </div>
@@ -75,20 +135,24 @@
 
                     //leemos el contenido del archivo
                     $content = file_get_contents($tmp_name) ;
-
+                    echo "<div class='content-ouput'>" ;
                     echo "<h2>Contenido del archivo</h2>" ;
                     
                     echo "<pre>" . htmlspecialchars( $content ) . "</pre>" ;
 
+                    echo "</div>" ;
 
                 }else{
-
+                    echo "<div class='content-ouput error-message'>" ;
                     echo "<h2>Error: Por favor sube un archivo (.txt)</h2>" ;
+                    echo "</div>" ;
                 }
 
             }else if ( isset ( $_FILES["archivo"] ) && $_FILES["archivo"]["error"] != UPLOAD_ERR_NO_FILE ){
 
-                 echo "<h2>Error: Ocurrió un error al subir el archivo</h2>" ;
+                echo "<div class='content-ouput error-message'>" ;
+                echo "<h2>Error: Ocurrió un error al subir el archivo</h2>" ;
+                echo "</div>" ;
             }
         ?>
     </body>
