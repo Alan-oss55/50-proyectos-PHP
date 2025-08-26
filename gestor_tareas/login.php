@@ -39,13 +39,31 @@
 
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
     <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
         <style>
 
         </style>
     </head>
     <body>
+
+        <div class="container">
+            <h1>Mi cuenta</h1>
+
+            <div class="form-group">
+                <form action="" method="post">
+                    <label for="username">Usser</label>
+                    <input type="text" name="username" id="username" required>
+
+                    <label for="password">Passwod</label>
+                    <input type="text" name="password" id="password" required>
+                </form>
+            </div>
+        </div>
         
     </body>
 
