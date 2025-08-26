@@ -9,21 +9,13 @@
         $username = $_POST["username"] ;
         $password = $_POST["password"] ;
 
-        $sent_base = "SELECT * FROM usuarios WHERE username = ? " ;
-
-        $stmt = $conexion_bd->prepare($sent_base) ;
-
-        $stmt->bind_param("s", $username) ;
-
-        $stmt->execute() ;
-
-        $resultado = $stmt->get_result() ;
+        $sent_base = "SELECT * FROM usuarios WHERE username = '$username' AND password = '$password'";
+        
+        $resultado = $conexion_bd->query($sent_base);
 
         $usuario = $resultado->fetch_assoc() ;
 
-        $stmt->close() ;
-
-        if ( $usuario && password_verify($password, $usuario["password"] ) ) {
+        if ( $usuario ) {
 
             $_SESSION["id_usuario"] = $usuario["id"] ;
             header("Location: inicio.php") ;
@@ -56,11 +48,13 @@
 
             <div class="form-group">
                 <form action="" method="post">
-                    <label for="username">Usser</label>
+                    <label for="username">username</label>
                     <input type="text" name="username" id="username" required>
 
                     <label for="password">Passwod</label>
                     <input type="text" name="password" id="password" required>
+
+                    <button type="submit">Login</button>
                 </form>
             </div>
         </div>
