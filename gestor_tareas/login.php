@@ -18,7 +18,7 @@
         if ( $usuario ) {
 
             $_SESSION["id_usuario"] = $usuario["id"] ;
-            header("Location: inicio.php") ;
+            header("Location: v_tareas.php") ;
             exit;
         }else{
             echo "Usuario o contraseña incorrectos" ;
